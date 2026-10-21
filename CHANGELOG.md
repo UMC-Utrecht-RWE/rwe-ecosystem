@@ -4,8 +4,14 @@ All notable changes to the shared workflows and templates are documented here.
 Versions follow semantic versioning; see docs/shared-workflows.md.
 
 ## [Unreleased]
-Breaking: release as `v2.0.0` and create the `v2` tag; do not move `v1`.
 
+## [2.0.1] - 2026-10-21
+### Fixed
+- `templates/` and `docs/` were missing from the `v2.0.0` tag, so the
+  `air.toml` check in `code_quality.yaml` failed with a 404 when downloading
+  `templates/r-package/managed/air.toml`.
+
+## [2.0.0] - 2026-10-21
 ### Added
 - This `CHANGELOG`.
 - Managed `air.toml` (Air formatter settings) in `templates/r-package/managed/`,
