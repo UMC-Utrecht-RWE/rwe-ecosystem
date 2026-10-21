@@ -4,6 +4,26 @@ All notable changes to the shared workflows and templates are documented here.
 Versions follow semantic versioning; see docs/shared-workflows.md.
 
 ## [Unreleased]
+### Added
+- Starter `.Rbuildignore` excluding the files the ecosystem adds to a package
+  (`.github`, `.lintr`, `air.toml`, `.covrignore`, `.pre-commit-config.yaml`,
+  `.git-blame-ignore-revs`, `CHANGELOG.md`) plus common editor and pkgdown
+  files. Merge it into a package's existing `.Rbuildignore`; keep the
+  package-specific entries.
+- Starter `.gitignore`: R session files, secrets (`.Renviron`), build/check
+  output, pkgdown `docs/`, built vignettes, logs and `.DS_Store`. Ignores
+  `.vscode/` except the shared `settings.json` and `extensions.json`.
+- Starter `.vscode/settings.json` (Air as R formatter, format on save) and
+  `.vscode/extensions.json` (recommends the Air and R extensions).
+- Starter `.github/pull_request_template.md` with a checklist: NEWS entry,
+  Air, `devtools::document()`, tests, check.
+- Starter `_pkgdown.yml` (site URL, Bootstrap 5).
+- Starter `NEWS.md`. Packages record changes in `NEWS.md`, which pkgdown
+  turns into the site's Changelog page.
+
+### Fixed
+- `docs/shared-workflows.md` pointed to a non-existent `NEWS.md`; it now
+  points to this `CHANGELOG.md`.
 
 ## [2.0.1] - 2026-10-21
 ### Fixed

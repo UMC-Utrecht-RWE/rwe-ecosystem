@@ -1,0 +1,13 @@
+^\.github$
+^\.lintr$
+^air\.toml$
+^\.covrignore$
+^\.pre-commit-config\.yaml$
+^\.git-blame-ignore-revs$
+^CHANGELOG\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.vscode$

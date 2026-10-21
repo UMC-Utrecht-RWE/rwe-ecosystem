@@ -56,7 +56,7 @@ Packages also need a few config files of their own. They come in two kinds:
 
 | Folder | Files | Rule |
 |---|---|---|
-| `templates/r-package/starter/` | `ci.yaml`, `.lintr`, `.pre-commit-config.yaml`, `.covrignore` | copy once, then the package may adapt them |
+| `templates/r-package/starter/` | `ci.yaml`, `pull_request_template.md`, `.lintr`, `.pre-commit-config.yaml`, `.covrignore`, `.Rbuildignore`, `.gitignore`, `.vscode/`, `_pkgdown.yml`, `NEWS.md` | copy once, then the package may adapt them (replace `PACKAGE` with the package name) |
 | `templates/r-package/managed/` | `air.toml` | copy **unchanged**; CI fails if the package's copy is missing or differs |
 
 The package keeps its own copy of a managed file so local tools (Air in the
@@ -183,7 +183,7 @@ git push origin v2.0.0 v2
 
 Do **not** move `v1`. Then, in each package, open a PR that changes `@v1` to
 `@v2` in `ci.yaml` and applies whatever else the breaking change requires.
-Describe what changed and how to migrate in [`NEWS.md`](../NEWS.md).
+Describe what changed and how to migrate in [`CHANGELOG.md`](../CHANGELOG.md).
 
 ### 6.4 Checking where tags point
 
@@ -238,5 +238,5 @@ release).
 Expected: packages use `@v1`, not `@main`. Release it (section 6.2).
 
 **Why does a package's CI suddenly fail without changes to its code?**
-Someone moved `v1` to a release that changed behaviour. Check `NEWS.md` and
+Someone moved `v1` to a release that changed behaviour. Check `CHANGELOG.md` and
 the recent tags (section 6.4); roll back if needed (section 6.5).
