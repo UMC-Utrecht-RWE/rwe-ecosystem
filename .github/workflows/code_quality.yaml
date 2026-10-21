@@ -40,27 +40,36 @@ jobs:
     runs-on: ubuntu-latest
     name: Check Code Style
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      # Fetch air.toml from the same major version packages call (@v2).
+      # Bump this together with the major version on a breaking release.
+      ECOSYSTEM_REF: v2
+      MANAGED_PATH: templates/r-package/managed/air.toml
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: 'release'
-          use-public-rspm: true
-
-      - name: Setup R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::styler
-          needs: check
-
-      - name: Check styling
+      # air.toml is owned by rwe-ecosystem; the package keeps a copy so local
+      # tools (editor, pre-commit) read the same settings. Fail if the copy is
+      # missing or has drifted.
+      - name: Check air.toml matches rwe-ecosystem
         run: |
-          # dry = "fail" errors if any file would be restyled
-          styler::style_pkg(dry = "fail")
-          cat("Code style looks good!\n")
-        shell: Rscript {0}
+          url="https://raw.githubusercontent.com/UMC-Utrecht-RWE/rwe-ecosystem/${ECOSYSTEM_REF}/${MANAGED_PATH}"
+          curl -fsSL --retry 3 "$url" -o "$RUNNER_TEMP/air.toml"
+          if [ ! -f air.toml ]; then
+            echo "::error file=air.toml::air.toml is missing. Copy it from $url"
+            exit 1
+          fi
+          if ! diff -u --strip-trailing-cr "$RUNNER_TEMP/air.toml" air.toml; then
+            echo "::error file=air.toml::air.toml differs from rwe-ecosystem@${ECOSYSTEM_REF}. Replace it with $url"
+            exit 1
+          fi
+          echo "air.toml matches rwe-ecosystem@${ECOSYSTEM_REF}"
+
+      - name: Install Air
+        uses: posit-dev/setup-air@v1
+
+      # Lists every file that would be reformatted; settings come from the
+      # package's air.toml. Fix locally with `air format .`
+      - name: Check formatting
+        run: air format . --check

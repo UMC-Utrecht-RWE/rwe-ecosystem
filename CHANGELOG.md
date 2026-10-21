@@ -1,0 +1,48 @@
+# Changelog
+
+All notable changes to the shared workflows and templates are documented here.
+Versions follow semantic versioning; see docs/shared-workflows.md.
+
+## [Unreleased]
+Breaking: release as `v2.0.0` and create the `v2` tag; do not move `v1`.
+
+### Added
+- This `CHANGELOG`.
+- Managed `air.toml` (Air formatter settings) in `templates/r-package/managed/`,
+  and a starter `.lintr` template.
+- `code_quality.yaml` fails if the package's `air.toml` is missing or differs
+  from `templates/r-package/managed/air.toml` at `v2`. Changing the managed
+  `air.toml` is therefore a breaking change (major release).
+
+### Changed
+- **Breaking:** `code_quality.yaml` checks formatting with
+  [Air](https://posit-dev.github.io/air/) (`air format . --check`) instead of
+  `styler::style_pkg()`. styler could produce lines longer than lintr allows
+  (e.g. R6 `initialize` signatures), so the two checks contradicted each other.
+  Air owns layout and respects the line width; lintr now only checks non-layout
+  rules.
+- The starter `.pre-commit-config.yaml` uses the Air hook instead of styler's
+  `style-files`.
+
+### Migrating a package from `@v1` to `@v2`
+1. Install Air: <https://posit-dev.github.io/air/cli.html>, or the extension
+   for VS Code / Positron / RStudio.
+2. Copy `air.toml` from `templates/r-package/managed/` into the package root,
+   unchanged (CI checks it), and add `^air\.toml$` to `.Rbuildignore`.
+3. Update `.lintr` to match the starter template (drops `indentation_linter`,
+   allows long lines in `tests/testthat`). Keep any package-specific settings.
+4. Remove `# styler: off` / `# styler: on` markers.
+5. Move trailing `# nolint` comments that follow an opening `(` or `{` to the
+   line above as `# nolint next` (Air moves them, and they then stop working).
+   Delete `# nolint: line_length_linter.` on `test_that()` lines.
+6. Run `air format .` until `air format . --check` passes (occasionally it
+   takes two passes), then run `lintr::lint_package()`.
+7. Commit the reformat on its own and add its SHA to `.git-blame-ignore-revs`,
+   so `git blame` skips it.
+8. Change `@v1` to `@v2` in `.github/workflows/ci.yaml` and, if used, replace
+   `.pre-commit-config.yaml` with the starter version.
+
+## [1.0.0] - 2026-10-20
+### Added
+- Reusable workflows: r_cmd_check, code_quality, test_coverage, pkgdown.
+- Starter ci.yaml template for packages.
