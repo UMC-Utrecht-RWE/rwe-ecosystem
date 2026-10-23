@@ -15,6 +15,10 @@ on:
         description: Lowest R CMD check severity that fails the job ('"note"', '"warning"' or '"error"').
         type: string
         default: '"warning"'
+      working-directory:
+        description: Folder that holds the package, relative to the repository root.
+        type: string
+        default: '.'
 
 name: R-CMD-check
 
@@ -48,8 +52,10 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+          working-directory: ${{ inputs.working-directory }}
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           error-on: ${{ inputs.error-on }}
+          working-directory: ${{ inputs.working-directory }}

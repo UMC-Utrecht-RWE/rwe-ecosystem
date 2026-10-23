@@ -1,0 +1,11 @@
+# Managed by rwedev: changes here are overwritten by use_rwe_standards()
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rcheck/
+*.tar.gz
+docs/
+inst/doc
+.DS_Store
+*~$*

@@ -1,0 +1,39 @@
+# CI for the rwedev package in rwedev/. Not a shared workflow: packages
+# don't call it. It runs the shared workflows from this same commit (./), so
+# a change to them is also tried on rwedev before it is released.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'rwedev/**'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'rwedev/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+name: rwedev
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rwedev-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  R-CMD-check:
+    uses: ./.github/workflows/r_cmd_check.yaml
+    with:
+      working-directory: rwedev
+
+  code-quality:
+    uses: ./.github/workflows/code_quality.yaml
+    with:
+      working-directory: rwedev
+
+  coverage:
+    uses: ./.github/workflows/test_coverage.yaml
+    with:
+      working-directory: rwedev
