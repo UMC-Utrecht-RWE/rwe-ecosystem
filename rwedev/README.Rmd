@@ -1,0 +1,32 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# rwedev
+
+Development tools for the RWE package ecosystem: create, update and check
+packages against the shared standards. Development use only: never list
+rwedev in the Imports of a domain package.
+
+This first version is the package skeleton. Its only function,
+`rwe_standards_version()`, returns the version of the RWE standards it
+implements. The planned tools and their status are in
+[docs/rwedev.md](https://github.com/UMC-Utrecht-RWE/rwe-ecosystem/blob/main/docs/rwedev.md).
+
+## Installation
+
+```r
+pak::pak("UMC-Utrecht-RWE/rwe-ecosystem/rwedev")
+```
+
+## Usage
+
+```{r}
+rwedev::rwe_standards_version()
+```
