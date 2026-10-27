@@ -5,6 +5,13 @@ Versions follow semantic versioning; see docs/shared-workflows.md.
 
 ## [Unreleased]
 ### Added
+- `working-directory` input on `r_cmd_check.yaml`, `code_quality.yaml` and
+  `test_coverage.yaml`, for a package that is not at the repository root.
+  Defaults to `.`, so existing `ci.yaml` files are unaffected (minor release).
+- `rwedev.yaml`: CI for the `rwedev` package in `rwedev/`. It runs the shared
+  workflows from the same commit, so changes to them are tried on rwedev first.
+- `docs/rwedev.md`: principles, planned functions and their status for the
+  `rwedev` package.
 - Starter `.Rbuildignore` excluding the files the ecosystem adds to a package
   (`.github`, `.lintr`, `air.toml`, `.covrignore`, `.pre-commit-config.yaml`,
   `.git-blame-ignore-revs`, `CHANGELOG.md`) plus common editor and pkgdown

@@ -5,6 +5,10 @@ on:
         description: Minimum overall coverage percentage; the job fails below it.
         type: number
         default: 85
+      working-directory:
+        description: Folder that holds the package, relative to the repository root.
+        type: string
+        default: '.'
 
 name: test-coverage
 
@@ -17,6 +21,9 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       COVERAGE_THRESHOLD: ${{ inputs.threshold }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
 
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +36,7 @@ jobs:
         with:
           extra-packages: any::covr
           needs: coverage
+          working-directory: ${{ inputs.working-directory }}
 
       - name: Test coverage
         run: |

@@ -1,0 +1,21 @@
+Package: rwedev
+Title: Development Tools for the RWE Package Ecosystem
+Version: 0.0.0.9000
+Authors@R:
+    person("Mattia Cinelli", "", role = c("aut", "cre"),
+           email = "M.Cinelli@umcutrecht.nl")
+Description: Tools that create, update and check R packages against the
+    RWE package ecosystem standards. Development use only: never list
+    this package in the Imports of a domain package.
+License: file LICENSE
+URL: https://github.com/UMC-Utrecht-RWE/rwe-ecosystem
+BugReports: https://github.com/UMC-Utrecht-RWE/rwe-ecosystem/issues
+Depends:
+    R (>= 4.1)
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/rwe/standards: v2
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.0

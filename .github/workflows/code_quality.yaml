@@ -1,5 +1,10 @@
 on:
   workflow_call:
+    inputs:
+      working-directory:
+        description: Folder that holds the package, relative to the repository root.
+        type: string
+        default: '.'
 
 name: Code Quality
 
@@ -9,6 +14,9 @@ jobs:
     name: Lint Code
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
 
     steps:
       - name: Checkout repository
@@ -25,6 +33,7 @@ jobs:
         with:
           extra-packages: any::lintr
           needs: check
+          working-directory: ${{ inputs.working-directory }}
 
       - name: Lint with lintr
         run: |
@@ -44,6 +53,9 @@ jobs:
       # Bump this together with the major version on a breaking release.
       ECOSYSTEM_REF: v2
       MANAGED_PATH: templates/r-package/managed/air.toml
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
 
     steps:
       - name: Checkout repository
