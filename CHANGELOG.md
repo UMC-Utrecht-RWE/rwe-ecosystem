@@ -19,7 +19,8 @@ Versions follow semantic versioning; see docs/shared-workflows.md.
   Air, `devtools::document()`, tests, check.
 - Starter `_pkgdown.yml` (site URL, Bootstrap 5).
 - Starter `NEWS.md`. Packages record changes in `NEWS.md`, which pkgdown
-  turns into the site's Changelog page.
+  turns into the site's Changelog page. A comment at the top (hidden on the
+  site) explains why and how to fill it in.
 
 ### Fixed
 - `docs/shared-workflows.md` pointed to a non-existent `NEWS.md`; it now
